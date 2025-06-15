@@ -3,44 +3,87 @@ package cart
 import (
 	"fmt"
 	"sync"
+	"time"
+	"weeklytask/models"
+	"weeklytask/utils"
 )
 
-type Item interface {
-	GetName() string
-	GetPrice() float64
+var Keranjang []models.Item
+
+func TambahkanKeranjang(item models.Item) {
+	Keranjang = append(Keranjang, item)
 }
 
-type Cart struct {
-	items []Item
-	mu    sync.Mutex
-}
+func hitungTotal(wg *sync.WaitGroup, ch chan int64) {
+	defer wg.Done()
 
-func NewCart() *Cart {
-	return &Cart{
-		items: []Item{},
+	var total int64 = 0
+	for _, item := range Keranjang {
+		total += item.GetHarga()
 	}
+	ch <- total
 }
 
-func (c *Cart) AddItem(item Item) {
-	c.mu.Lock()
-	defer c.mu.Unlock()
-	c.items = append(c.items, item)
+func LihatKeranjang() int64 {
+	utils.ClearTerminal()
+
+	if len(Keranjang) == 0 {
+		fmt.Println("🛒 Keranjang kosong.")
+		return 0
+	}
+
+	fmt.Println("📦 Daftar Isi Keranjang:\n")
+	for i, item := range Keranjang {
+		fmt.Printf("%d. %s Rp.%d \n", i+1, item.GetName(), item.GetHarga())
+	}
+
+	var wg sync.WaitGroup
+	totalChan := make(chan int64, 1) // BUFFERED supaya tidak deadlock
+
+	wg.Add(1)
+	go hitungTotal(&wg, totalChan)
+
+	total := <-totalChan // langsung terima
+	wg.Wait()
+	close(totalChan)
+
+	fmt.Printf("\n💰 Total: Rp.%d\n", total)
+	return total
 }
 
-func (c *Cart) PrintCart() {
-	c.mu.Lock()
-	defer c.mu.Unlock()
 
-	if len(c.items) == 0 {
-		fmt.Println("Belum ada belanjaan")
+func Checkout() {
+	utils.ClearTerminal()
+
+	if len(Keranjang) == 0 {
+		fmt.Println("🛒 Keranjang masih kosong, tidak bisa checkout.")
+		fmt.Print("Tekan ENTER untuk kembali...")
+		fmt.Scanln()
 		return
 	}
 
-	fmt.Println("\n🛒 Isi Keranjang:")
-	total := 0.0
-	for i, item := range c.items {
-		fmt.Printf("%d. %s - Rp %.0f\n", i+1, item.GetName(), item.GetPrice())
-		total += item.GetPrice()
+	total := LihatKeranjang()
+
+	var konfirmasi string
+	fmt.Print("Yakin ingin melakukan checkout? (y/n): ")
+	fmt.Scanln(&konfirmasi)
+
+	if konfirmasi != "y" && konfirmasi != "Y" {
+		fmt.Println("❌ Checkout dibatalkan.")
+		fmt.Print("Tekan ENTER untuk kembali...")
+		fmt.Scanln()
+		return
 	}
-	fmt.Printf("Total: Rp %.0f\n", total)
+	utils.ClearTerminal()
+	fmt.Println("\n🧾 Sedang memproses checkout...")
+	time.Sleep(2 * time.Second)
+	utils.ClearTerminal()
+	fmt.Printf("✅ Checkout berhasil. Total belanja: Rp.%d\n", total)
+	fmt.Println("Terima kasih telah berbelanja!")
+
+	Keranjang = []models.Item{}
+
+	fmt.Print("Tekan ENTER untuk kembali ke menu utama...")
+	fmt.Scanln()
 }
+
