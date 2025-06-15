@@ -2,13 +2,13 @@ package models
 
 type Snack struct {
 	Name string
-	Harga int64
+	Harga int
 }
 
 func (s Snack) GetName()string {return s.Name}
-func (s Snack) GetHarga()int64 {return s.Harga}
+func (s Snack) GetHarga()int {return s.Harga}
 
-func NewSnack(name string, harga int64)Snack{
+func NewSnack(name string, harga int)Snack{
 	return Snack{Name: name, Harga: harga}
 }
 

@@ -1,20 +1,14 @@
-# fgo24-go-auth-flow 🛡️
+# 🍽️ Terminal Food Ordering Application - Go
 
-A simple console-based authentication system written in Go (Golang).  
-It includes basic features like Register, Login, Forgot Password, and a secure login menu after successful login.
+A terminal-based application for ordering food, drinks, and snacks using the Go programming language. Suitable for practicing using interfaces, goroutines, channels, and modularization in Go.
 
----
+## 🛠️ Features
 
-## ✨ Features
-
-- ✅ Register new user
-- 🔐 Login with password encryption (MD5)
-- 🔑 Forgot password (reset password flow)
-- 👥 View registered users
-- 🔒 Logout
-- ⛔ Exit application
-
----
+- Displays food, drink, and snack menus
+- Add items to cart
+- Filter and search menus
+- Pagination feature (see menu per page)
+- Checkout with receipt display
 
 ## 🛠️ Prerequisites
 
@@ -29,7 +23,7 @@ Check Go installation:
 
 ```
 
-git clone https://github.com/Dwaysetya/fgo24-go-auth-flow
+git clone https://github.com/Dwaysetya/fgo24-go-weeklytask.git
 
 ```
 
@@ -37,7 +31,7 @@ git clone https://github.com/Dwaysetya/fgo24-go-auth-flow
 
 ```
 
-cd fgo24-go-auth-flow
+cd fgo24-go-weeklytask
 
 ```
 

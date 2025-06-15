@@ -13,21 +13,21 @@ func TambahkanKeranjang(item models.Item) {
 	Keranjang = append(Keranjang, item)
 }
 
-func hitungTotal(wg *sync.WaitGroup, ch chan int64) {
+func hitungTotal(wg *sync.WaitGroup, ch chan int) {
 	defer wg.Done()
 
-	var total int64 = 0
+	var total int = 0
 	for _, item := range Keranjang {
 		total += item.GetHarga()
 	}
 	ch <- total
 }
 
-func LihatKeranjang() int64 {
+func LihatKeranjang() int {
 	utils.ClearTerminal()
 
 	if len(Keranjang) == 0 {
-		fmt.Println("🛒 Keranjang kosong.")
+		fmt.Println("🛒 Keranjang kosong")
 		return 0
 	}
 
@@ -37,7 +37,7 @@ func LihatKeranjang() int64 {
 	}
 
 	var wg sync.WaitGroup
-	totalChan := make(chan int64, 1)
+	totalChan := make(chan int, 1)
 
 	wg.Add(1)
 	go hitungTotal(&wg, totalChan)
@@ -55,7 +55,7 @@ func Checkout() {
 	utils.ClearTerminal()
 
 	if len(Keranjang) == 0 {
-		fmt.Println("🛒 Keranjang masih kosong, tidak bisa checkout.")
+		fmt.Println("🛒 Keranjang masih kosong, tidak bisa checkout")
 		fmt.Print("Tekan ENTER untuk kembali...")
 		fmt.Scanln()
 		return
@@ -68,7 +68,7 @@ func Checkout() {
 	fmt.Scanln(&konfirmasi)
 
 	if konfirmasi != "y" && konfirmasi != "Y" {
-		fmt.Println("❌ Checkout dibatalkan.")
+		fmt.Println("❌ Checkout dibatalkan")
 		fmt.Print("Tekan ENTER untuk kembali...")
 		fmt.Scanln()
 		return

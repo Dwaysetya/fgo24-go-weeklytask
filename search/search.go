@@ -32,7 +32,7 @@ func SearchMenu() {
 	}
 
 	if len(hasil) == 0 {
-		fmt.Println("❌ Tidak ditemukan.")
+		fmt.Println("❌ Tidak ditemukan")
 		return
 	}
 
@@ -45,11 +45,11 @@ func SearchMenu() {
 	fmt.Print("Pilih nomor untuk ditambahkan ke keranjang (0 batal): ")
 	fmt.Scanln(&pilihan)
 
-	if pilihan > 0 && pilihan <= len(hasil) {
+	if pilihan > 0  {
 		cart.TambahkanKeranjang(hasil[pilihan-1])
 		fmt.Println("✅ Berhasil ditambahkan ke keranjang.")
 	} else {
-		fmt.Println("❌ Dibatalkan.")
+		fmt.Println("❌ Dibatalkan")
 	}
 	fmt.Print("Tekan ENTER untuk kembali ...")
 		fmt.Scanln()

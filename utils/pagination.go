@@ -9,7 +9,7 @@ import (
 	"weeklytask/models"
 )
 
-func TampilkanDenganPagination(judul string, daftar []models.Item, perPage int) models.Item {
+func TampilkanPagination(judul string, daftar []models.Item, perPage int) models.Item {
 	total := len(daftar)
 	page := 0
 

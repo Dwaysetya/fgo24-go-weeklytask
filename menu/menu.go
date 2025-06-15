@@ -45,7 +45,7 @@ func TampilkanMenu(){
 		case 5:
 			search.TampilFilterMenu()
 		case 0:
-			fmt.Println("Terima kasih telah menggunakan aplikasi kami.")
+			fmt.Println("Terima kasih telah menggunakan aplikasi kami")
 			return		
 		default:
 			fmt.Println("Pilihan tidak tersedia")
@@ -94,7 +94,7 @@ func TampilMenuMakanan() {
 
 	for {
 		utils.ClearTerminal()
-		item := utils.TampilkanDenganPagination("🍽️ Menu Makanan", makanan, 5)
+		item := utils.TampilkanPagination("🍽️ Menu Makanan", makanan, 5)
 
 		if item == nil {
 			return
@@ -113,7 +113,7 @@ func TampilMenuMinuman() {
 
 	for {
 		utils.ClearTerminal()
-		item := utils.TampilkanDenganPagination("🥤 Menu Makanan", minuman, 5)
+		item := utils.TampilkanPagination("🥤 Menu Makanan", minuman, 5)
 
 		if item == nil {
 			return
@@ -131,7 +131,7 @@ func TampilMenuSnack() {
 
 	for {
 		utils.ClearTerminal()
-		item := utils.TampilkanDenganPagination("🍿 Menu Makanan", snack, 5)
+		item := utils.TampilkanPagination("🍿 Menu Makanan", snack, 5)
 
 		if item == nil {
 			return

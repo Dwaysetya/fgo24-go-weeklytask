@@ -3,13 +3,13 @@ package models
 
 type Minuman struct{
 	Name string
-	Harga int64
+	Harga int
 }
 
 func (d Minuman) GetName()string {return d.Name}
-func (d Minuman) GetHarga()int64 {return d.Harga}
+func (d Minuman) GetHarga()int {return d.Harga}
 
-func NewMinuman (name string, harga int64)Minuman{
+func NewMinuman (name string, harga int)Minuman{
 	return Minuman{Name: name, Harga: harga}
 }
 
