@@ -18,7 +18,6 @@ func ClearTerminal() {
 		cmd.Stdout = os.Stdout
 		cmd.Run()
 	default:
-		// fallback
 		fmt.Print("\033[H\033[2J")
 	}
 }

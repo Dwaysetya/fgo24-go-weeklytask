@@ -3,7 +3,6 @@ package cart
 import (
 	"fmt"
 	"sync"
-	"time"
 	"weeklytask/models"
 	"weeklytask/utils"
 )
@@ -38,12 +37,12 @@ func LihatKeranjang() int64 {
 	}
 
 	var wg sync.WaitGroup
-	totalChan := make(chan int64, 1) // BUFFERED supaya tidak deadlock
+	totalChan := make(chan int64, 1)
 
 	wg.Add(1)
 	go hitungTotal(&wg, totalChan)
 
-	total := <-totalChan // langsung terima
+	total := <-totalChan 
 	wg.Wait()
 	close(totalChan)
 
@@ -75,11 +74,17 @@ func Checkout() {
 		return
 	}
 	utils.ClearTerminal()
-	fmt.Println("\n🧾 Sedang memproses checkout...")
-	time.Sleep(2 * time.Second)
-	utils.ClearTerminal()
-	fmt.Printf("✅ Checkout berhasil. Total belanja: Rp.%d\n", total)
-	fmt.Println("Terima kasih telah berbelanja!")
+	fmt.Println("===========================")
+	fmt.Println("        STRUK BELANJA      ")
+	fmt.Println("===========================")
+	for i, item := range Keranjang {
+		fmt.Printf("%d. %s - Rp.%d\n", i+1, item.GetName(), item.GetHarga())
+	}
+	fmt.Println("---------------------------")
+	fmt.Printf("Total Bayar: Rp.%d\n", total)
+	fmt.Println("===========================")
+	fmt.Println("Terima kasih 🙏")
+	fmt.Println()
 
 	Keranjang = []models.Item{}
 
