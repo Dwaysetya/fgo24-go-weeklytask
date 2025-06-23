@@ -1,51 +1,61 @@
 package auth
 
 import (
-	"sync"
-	"weeklytask/models"
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
 )
 
-type AuthHandler struct {
-	Users *[]models.User
-}
+func PromptAuth(service AuthService) {
+	reader := bufio.NewReader(os.Stdin)
 
-func NewAuthHandle(users *[]models.User) *AuthHandler {
-	return &AuthHandler{Users: users}
-}
+	for {
+		fmt.Print(`
+=================================
+      🔐 AUTHENTICATION MENU      
+=================================
+1. 🔑 Login
+2. 📝 Register
+0. ❌ Keluar
+=================================
+`)
+		fmt.Print("Pilih opsi: ")
+		var opsi int
+		fmt.Scanln(&opsi)
 
-func (a *AuthHandler) Register(nama, email, password string) {
-	var wg sync.WaitGroup
-	wg.Add(1)
+		switch opsi {
+		case 1:
+			fmt.Print("Email: ")
+			email, _ := reader.ReadString('\n')
+			fmt.Print("Password: ")
+			password, _ := reader.ReadString('\n')
 
-	go func() {
-		defer wg.Done()
-		user := models.User{Nama: nama, Email: email, Password: password}
-		*a.Users = append(*a.Users, user)
-	}()
-
-	wg.Wait()
-}
-
-func (a *AuthHandler) Login(email, password string) *models.User {
-	result := make(chan *models.User)
-	var wg sync.WaitGroup
-	wg.Add(1)
-
-	go func() {
-		defer wg.Done()
-		for _, u := range *a.Users {
-			if u.Email == email && u.Password == password {
-				result <- &u
+			user := service.Login(strings.TrimSpace(email), strings.TrimSpace(password))
+			if user != nil {
+				fmt.Println("✅ Login berhasil sebagai", user.Nama)
 				return
 			}
+			fmt.Println("❌ Email atau password salah")
+		case 2:
+			fmt.Print("Nama: ")
+			nama, _ := reader.ReadString('\n')
+			fmt.Print("Email: ")
+			email, _ := reader.ReadString('\n')
+			fmt.Print("Password: ")
+			password, _ := reader.ReadString('\n')
+
+			service.Register(
+				strings.TrimSpace(nama),
+				strings.TrimSpace(email),
+				strings.TrimSpace(password),
+			)
+			fmt.Println("✅ Registrasi berhasil!")
+		case 0:
+			fmt.Println("👋 Keluar dari program.")
+			os.Exit(0)
+		default:
+			fmt.Println("❌ Pilihan tidak valid")
 		}
-		result <- nil
-	}()
-
-	go func() {
-		wg.Wait()
-		close(result)
-	}()
-
-	return <-result
+	}
 }
