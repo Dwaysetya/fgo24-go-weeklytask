@@ -11,13 +11,16 @@ func TampilkanMenu(){
 	for{
 		utils.ClearTerminal()
 		fmt.Println(`
-========== Menu Utama ==========
-1. Order Menu
-2. Lihat Keranjang
-3. Checkout
-4. search
-5. Filter
-0. Keluar
+=================================
+	🍽️  MENU UTAMA          
+=================================
+1. 🧾 Order Menu
+2. 🛒 Lihat Keranjang
+3. 💳 Checkout
+4. 🔍 Cari Menu
+5. 🧼 Filter Menu
+0. ❌ Keluar
+=================================
 		`)
 
 		var pilihan int
