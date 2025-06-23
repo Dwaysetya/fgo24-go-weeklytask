@@ -27,8 +27,9 @@ func LihatKeranjang() int {
 	utils.ClearTerminal()
 
 	if len(Keranjang) == 0 {
-		fmt.Println("🛒 Keranjang kosong")
-		return 0
+		fmt.Println("🛒 Anda belum membeli apapun")
+		fmt.Print("Tekan ENTER untuk kembali...")
+		fmt.Scanln()
 	}
 
 	fmt.Println("📦 Daftar Isi Keranjang:")
