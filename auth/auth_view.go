@@ -5,15 +5,17 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"weeklytask/utils"
 )
 
 func PromptAuth(service AuthService) {
+	utils.ClearTerminal()
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
 		fmt.Print(`
 =================================
-      🔐 AUTHENTICATION MENU      
+      🔐 LOGIN TERLEBIH DAHULU      
 =================================
 1. 🔑 Login
 2. 📝 Register
@@ -26,6 +28,8 @@ func PromptAuth(service AuthService) {
 
 		switch opsi {
 		case 1:
+			utils.ClearTerminal()
+			fmt.Println("🔑 LOGIN")
 			fmt.Print("Email: ")
 			email, _ := reader.ReadString('\n')
 			fmt.Print("Password: ")
@@ -33,11 +37,17 @@ func PromptAuth(service AuthService) {
 
 			user := service.Login(strings.TrimSpace(email), strings.TrimSpace(password))
 			if user != nil {
-				fmt.Println("✅ Login berhasil sebagai", user.Nama)
+				fmt.Println("✅ Selamat berbelanja", user.Nama)
 				return
 			}
-			fmt.Println("❌ Email atau password salah")
+			fmt.Println("❌ Email atau password anda salah")
+			fmt.Print("Tekan ENTER untuk kembali...")
+			fmt.Scanln()
+			utils.ClearTerminal()
+
 		case 2:
+			utils.ClearTerminal()
+			fmt.Println("📝 REGISTER")
 			fmt.Print("Nama: ")
 			nama, _ := reader.ReadString('\n')
 			fmt.Print("Email: ")
@@ -50,12 +60,21 @@ func PromptAuth(service AuthService) {
 				strings.TrimSpace(email),
 				strings.TrimSpace(password),
 			)
-			fmt.Println("✅ Registrasi berhasil!")
+			fmt.Println("✅ Registrasi berhasil")
+			fmt.Print("Tekan ENTER untuk kembali...")
+			fmt.Scanln()
+			utils.ClearTerminal()
+
 		case 0:
-			fmt.Println("👋 Keluar dari program.")
+			utils.ClearTerminal()
+			fmt.Println("👋 Anda keluar dari program.")
 			os.Exit(0)
+
 		default:
+			utils.ClearTerminal()
 			fmt.Println("❌ Pilihan tidak valid")
+			fmt.Print("Tekan ENTER untuk kembali...")
+			fmt.Scanln()
 		}
 	}
 }
