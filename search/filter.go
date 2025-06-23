@@ -17,13 +17,18 @@ func TampilFilterMenu() {
 
 	for {
 		utils.ClearTerminal()
-		fmt.Println("🔎 Cari Menu dengan Filter\n")
-		fmt.Println("Pilih kategori:")
-		fmt.Println("1. Semua")
-		fmt.Println("2. Makanan")
-		fmt.Println("3. Minuman")
-		fmt.Println("4. Snack")
-		fmt.Println("0. Kembali")
+		utils.ClearTerminal()
+		fmt.Println(`
+=================================
+	🔎  FILTER MENU PENCARIAN    
+=================================
+1. 🍽️  Semua Menu
+2. 🍛  Makanan
+3. 🥤  Minuman
+4. 🍟  Snack
+0. ❌  Kembali
+=================================
+		`)
 
 		fmt.Print("Masukkan pilihan: ")
 		var kategori int
@@ -51,12 +56,19 @@ func TampilFilterMenu() {
 			reader.ReadString('\n')
 			continue
 		}
+
 		utils.ClearTerminal()
-		fmt.Println("\nUrutkan berdasarkan:")
-		fmt.Println("1. Harga Tertinggi")
-		fmt.Println("2. Harga Terendah")
-		fmt.Println("3. Nama (A-Z)")
-		fmt.Println("4. Nama (Z-A)")
+		fmt.Println(`
+=================================
+	🧮  URUTKAN BERDASARKAN      
+=================================
+1. 💰 Harga Tertinggi
+2. 🪙 Harga Terendah
+3. 🔤 Nama (A-Z)
+4. 🔡 Nama (Z-A)
+0. ❌ Batal
+=================================
+		`)
 		fmt.Print("Masukkan pilihan filter: ")
 		var filter int
 		fmt.Scanln(&filter)
@@ -85,23 +97,18 @@ func TampilFilterMenu() {
 			continue
 		}
 
-		utils.ClearTerminal()
-		fmt.Println("📋 Hasil Filter:\n")
-		for i, item := range items {
-			fmt.Printf("%d. %-20s Rp. %d\n", i+1, item.GetName(), item.GetHarga())
-		}
+		for {
+			utils.ClearTerminal()
+			item := utils.TampilkanPagination("📋 Hasil Filter", items, 5)
 
-		fmt.Print("\nPilih nomor untuk ditambahkan ke keranjang (0 batal): ")
-		var pilih int
-		fmt.Scanln(&pilih)
+			if item == nil {
+				break
+			}
 
-		if pilih > 0 && pilih <= len(items) {
-			cart.TambahkanKeranjang(items[pilih-1])
-			fmt.Println("✅ Berhasil ditambahkan ke keranjang.")
-		} else {
-			fmt.Println("❌ Dibatalkan.")
+			cart.TambahkanKeranjang(item)
+			fmt.Printf("✅ %s berhasil ditambahkan ke keranjang\n", item.GetName())
+			fmt.Print("Tekan ENTER untuk kembali ke hasil filter...")
+			reader.ReadString('\n')
 		}
-		fmt.Print("Tekan ENTER untuk kembali...")
-		reader.ReadString('\n')
 	}
 }
