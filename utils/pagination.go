@@ -32,7 +32,7 @@ func TampilkanPagination(judul string, daftar []models.Item, perPage int) models
 		}
 
 		fmt.Println("\n> Next | < Prev | 0 Kembali")
-		fmt.Print("Pilih nomor: ")
+		fmt.Print("Masukkan pilihan: ")
 		input, _ := reader.ReadString('\n')
 		input = strings.TrimSpace(input)
 
