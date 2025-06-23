@@ -31,7 +31,7 @@ func LihatKeranjang() int {
 		return 0
 	}
 
-	fmt.Println("📦 Daftar Isi Keranjang:\n")
+	fmt.Println("📦 Daftar Isi Keranjang:")
 	for i, item := range Keranjang {
 		fmt.Printf("%d. %s Rp.%d \n", i+1, item.GetName(), item.GetHarga())
 	}
